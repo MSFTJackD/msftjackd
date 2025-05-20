@@ -12,6 +12,18 @@ A lightweight, client-side tool to help you create YAML configuration files for 
 - **Best Practices**: Get guidance on creating effective agent configurations
 - **No Server Required**: Pure HTML, CSS, and JavaScript that runs directly in the browser
 
+## Access the Tool
+
+You can use this tool in two ways:
+
+1. **Online Version**: Access directly through GitHub Pages without downloading anything:
+   - [https://YOUR-USERNAME.github.io/AgentWorkshop](https://YOUR-USERNAME.github.io/AgentWorkshop)
+   - Replace `YOUR-USERNAME` with your GitHub username
+
+2. **Local Version**: Clone and use locally:
+   - Clone this repository
+   - Open `index.html` in your browser
+
 ## Getting Started
 
 1. Open the `index.html` file directly in your web browser

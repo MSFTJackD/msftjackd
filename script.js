@@ -43,6 +43,20 @@ document.addEventListener('DOMContentLoaded', function() {
     copyYamlBtn.addEventListener('click', copyYaml);
     downloadYamlBtn.addEventListener('click', downloadYaml);
     
+    // Add example loaders
+    document.getElementById('load-servicenow-example').addEventListener('click', function(e) {
+        e.preventDefault();
+        loadExample('servicenow');
+    });
+    document.getElementById('load-intune-example').addEventListener('click', function(e) {
+        e.preventDefault();
+        loadExample('intune');
+    });
+    document.getElementById('load-lifecycle-example').addEventListener('click', function(e) {
+        e.preventDefault();
+        loadExample('lifecycle');
+    });
+    
     // Initialize tooltips for static elements
     initializeTooltips();
 
@@ -380,6 +394,75 @@ document.addEventListener('DOMContentLoaded', function() {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+    }
+    
+    // Load Example Configuration
+    function loadExample(exampleType) {
+        // Clear existing skills
+        skillsList.innerHTML = '';
+        
+        // Set descriptor values
+        if (exampleType === 'servicenow') {
+            document.getElementById('descriptor-name').value = 'ServiceNowHelpdeskAgent';
+            document.getElementById('descriptor-display-name').value = 'ServiceNow Helpdesk';
+            document.getElementById('descriptor-description').value = 'This agent helps users lookup and manage ServiceNow tickets and incidents.';
+            
+            // Add ServiceNow skill
+            addSkill();
+            const skill = document.querySelector('.skill-item');
+            skill.querySelector('.skill-name').value = 'ServiceNowAgent';
+            skill.querySelector('.skill-display-name').value = 'ServiceNow Agent';
+            skill.querySelector('.skill-description').value = 'Look up and manage ServiceNow tickets and incidents';
+            skill.querySelector('.skill-instructions').value = 'You are a HelpDesk technician. You lookup the latest incidents in ServiceNow incident tables. You are primarily focused on the latest tickets and helping users find information about their open incidents.';
+            skill.querySelector('.input-description').value = 'ServiceNow agent that can lookup existing tickets and incidents in ServiceNow.';
+            
+            // Add child skills
+            const childSkillList = skill.querySelector('.childskill-list');
+            childSkillList.innerHTML = '';
+            ['GetServiceNowIncident', 'GetServiceNowIncidentComments', 'SearchServiceNowIncidents'].forEach(childSkill => {
+                addChildSkill(childSkillList, childSkill);
+            });
+        } else if (exampleType === 'intune') {
+            document.getElementById('descriptor-name').value = 'IntuneDeviceAgent';
+            document.getElementById('descriptor-display-name').value = 'Intune Device Manager';
+            document.getElementById('descriptor-description').value = 'This agent helps users manage and troubleshoot devices enrolled in Microsoft Intune.';
+            
+            // Add Intune skill
+            addSkill();
+            const skill = document.querySelector('.skill-item');
+            skill.querySelector('.skill-name').value = 'IntuneAgent';
+            skill.querySelector('.skill-display-name').value = 'Intune Agent';
+            skill.querySelector('.skill-description').value = 'Manage and troubleshoot devices in Intune';
+            skill.querySelector('.skill-instructions').value = 'You are an Intune administrator. You help users manage their devices enrolled in Intune, check device compliance status, and assist with troubleshooting device enrollment issues.';
+            skill.querySelector('.input-description').value = 'Intune agent that can assist with managing devices from Intune.';
+            
+            // Add child skills
+            const childSkillList = skill.querySelector('.childskill-list');
+            childSkillList.innerHTML = '';
+            ['GetIntuneDevices', 'GetEntraUserDetailsV1'].forEach(childSkill => {
+                addChildSkill(childSkillList, childSkill);
+            });
+        } else if (exampleType === 'lifecycle') {
+            document.getElementById('descriptor-name').value = 'LifecycleWorkflowAgent';
+            document.getElementById('descriptor-display-name').value = 'Lifecycle Workflow';
+            document.getElementById('descriptor-description').value = 'This agent helps users with onboarding and offboarding processes using Lifecycle Workflows.';
+            
+            // Add Lifecycle skill
+            addSkill();
+            const skill = document.querySelector('.skill-item');
+            skill.querySelector('.skill-name').value = 'LifeCycleWorkFlowAgent';
+            skill.querySelector('.skill-display-name').value = 'Lifecycle Workflow Agent';
+            skill.querySelector('.skill-description').value = 'Assist with onboarding and offboarding processes';
+            skill.querySelector('.skill-instructions').value = 'You are a HelpDesk technician. You assist in onboarding and offboarding users via Lifecycle Workflows. You help manage the employee lifecycle from hiring to departure.';
+            skill.querySelector('.input-description').value = 'Lifecycle Workflow agent that can assist with employee onboarding and offboarding.';
+            
+            // Add child skills
+            const childSkillList = skill.querySelector('.childskill-list');
+            childSkillList.innerHTML = '';
+            ['ActivateLifecycleWorkflow'].forEach(childSkill => {
+                addChildSkill(childSkillList, childSkill);
+            });
+        }
     }
     
     // Add default first skill

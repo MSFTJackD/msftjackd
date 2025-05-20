@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copilot Agent YAML Generator</title>
+    <meta name="description" content="A tool to generate YAML configuration files for Microsoft Copilot custom plugins and agents">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Copilot Agent YAML Generator">
+    <meta property="og:description" content="Create YAML configuration files for Microsoft Copilot custom plugins and agents">
+    <meta property="og:type" content="website">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>    <div class="container">
@@ -16,6 +23,20 @@
                 <a href="https://learn.microsoft.com/en-us/copilot/security/custom-plugins" target="_blank">Learn more about Copilot custom plugins</a>
             </p>
         </div>
+        
+        <div class="quick-start">
+            <h3>Quick Start Guide</h3>
+            <ol>
+                <li>Fill in the <strong>Descriptor</strong> section with your agent's basic information</li>
+                <li>Configure the <strong>SkillGroup</strong> settings</li>
+                <li>Add <strong>Skills</strong> by clicking the "Add Skill" button</li>
+                <li>For each skill, add <strong>Child Skills</strong> that represent the functions it can call</li>
+                <li>Click <strong>Generate YAML</strong> to create your configuration</li>
+                <li>Use the <strong>Copy</strong> or <strong>Download</strong> buttons to save your work</li>
+            </ol>
+            <p>Try the pre-configured examples: <a href="#" id="load-servicenow-example">ServiceNow</a> | <a href="#" id="load-intune-example">Intune</a> | <a href="#" id="load-lifecycle-example">Lifecycle</a></p>
+        </div>
+          
           <div class="descriptor-section">
             <h2>Descriptor</h2>
             <div class="form-group">
