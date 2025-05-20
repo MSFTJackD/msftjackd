@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'LifeCycleWorkFlowAgent': ['ActivateLifecycleWorkflow'],
         'IntuneAgent': ['GetIntuneDevices', 'GetEntraUserDetailsV1']
     };
-    
-    // Tooltip information for each field
+      // Tooltip information for each field
     const tooltipData = {
         'descriptor-name': 'Internal name of the Plugin. Cannot contain: / \\ ? # @. Maximum length: 100 characters.',
         'descriptor-display-name': 'Human-readable name of the agent. Should be concise and descriptive. Maximum length: 40 characters.',
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize tooltips for static elements
     initializeTooltips();
-
+    
     // Initialize tooltips
     function initializeTooltips() {
         // Add tooltips to static elements on the page
@@ -112,8 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addTooltipToElement(childSkillList, tooltipData['childskill-list']);
         }
     }
-    
-    // Add a skill
+      // Add a skill
     function addSkill() {
         const skillContent = skillTemplate.content.cloneNode(true);
         const skillElement = document.createElement('div');
@@ -381,7 +379,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
-    
-    // Add default first skill
+      // Add default first skill
     addSkill();
 });

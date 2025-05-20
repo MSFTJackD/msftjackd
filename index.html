@@ -6,30 +6,58 @@
     <title>Copilot Agent YAML Generator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="container">
+<body>    <div class="container">
         <h1>Copilot Agent YAML Generator</h1>
         
-        <div class="descriptor-section">
+        <div class="info-banner">
+            <p>
+                This tool helps you generate YAML configuration files for Microsoft Copilot custom plugins/agents. 
+                Hover over the <span class="info-icon">i</span> icons for more information about each field.
+                <a href="https://learn.microsoft.com/en-us/copilot/security/custom-plugins" target="_blank">Learn more about Copilot custom plugins</a>
+            </p>
+        </div>
+          <div class="descriptor-section">
             <h2>Descriptor</h2>
             <div class="form-group">
-                <label for="descriptor-name">Name:</label>
+                <label for="descriptor-name">
+                    Name:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Internal name of the Plugin. Cannot contain: / \ ? # @. Maximum length: 100 characters.</span>
+                    </div>
+                </label>
                 <input type="text" id="descriptor-name" placeholder="e.g., CAT">
             </div>
             <div class="form-group">
-                <label for="descriptor-display-name">Display Name:</label>
+                <label for="descriptor-display-name">
+                    Display Name:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Human-readable name of the agent. Should be concise and descriptive. Maximum length: 40 characters.</span>
+                    </div>
+                </label>
                 <input type="text" id="descriptor-display-name" placeholder="e.g., UEMWorkshopAgent">
             </div>
             <div class="form-group">
-                <label for="descriptor-description">Description:</label>
+                <label for="descriptor-description">
+                    Description:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Detailed description of what the agent does. This helps users understand the agent's purpose. Maximum length: 16,000 characters.</span>
+                    </div>
+                </label>
                 <textarea id="descriptor-description" placeholder="Enter a description of your agent"></textarea>
             </div>
-        </div>
-
-        <div class="skillgroup-section">
+        </div>        <div class="skillgroup-section">
             <h2>Skill Group</h2>
             <div class="form-group">
-                <label for="skillgroup-format">Format:</label>
+                <label for="skillgroup-format">
+                    Format:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Defines how the skills are structured. For Copilot Agents, this should be set to AGENT.</span>
+                    </div>
+                </label>
                 <select id="skillgroup-format">
                     <option value="AGENT">AGENT</option>
                 </select>
@@ -38,7 +66,13 @@
                 <label>Settings:</label>
                 <div class="nested-form">
                     <div class="form-group">
-                        <label for="history-passdown">History Pass Down Mode:</label>
+                        <label for="history-passdown">
+                            History Pass Down Mode:
+                            <div class="tooltip-container">
+                                <span class="info-icon">i</span>
+                                <span class="tooltip">Controls how conversation history is passed to child skills. Options: None, All, or LastExchange.</span>
+                            </div>
+                        </label>
                         <select id="history-passdown">
                             <option value="None">None</option>
                             <option value="All">All</option>
@@ -46,7 +80,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="include-history">Include Session History:</label>
+                        <label for="include-history">
+                            Include Session History:
+                            <div class="tooltip-container">
+                                <span class="info-icon">i</span>
+                                <span class="tooltip">Determines whether session history should be included in skill invocations.</span>
+                            </div>
+                        </label>
                         <select id="include-history">
                             <option value="false">false</option>
                             <option value="true">true</option>
@@ -72,9 +112,166 @@
             <h2>Generated YAML</h2>
             <pre id="yaml-result"></pre>
         </div>
-    </div>
-
-    <!-- Skill Template (Hidden) -->
+          <div class="documentation-section">
+            <h2>Understanding Copilot Agent YAML Structure</h2>
+            <div class="documentation-content">
+                <details open>
+                    <summary><h3>Descriptor</h3></summary>
+                    <p>The Descriptor section contains metadata about your agent:</p>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>string</td>
+                                <td>Internal name of the plugin (max 100 chars, no special characters: / \ ? # @)</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>DisplayName</td>
+                                <td>string</td>
+                                <td>Human-readable name shown to users (max 40 chars)</td>
+                                <td>Recommended</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>string</td>
+                                <td>Detailed explanation of what the agent does (max 16,000 chars)</td>
+                                <td>Yes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </details>
+                
+                <details>
+                    <summary><h3>SkillGroups</h3></summary>
+                    <p>SkillGroups define the capabilities of your agent:</p>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Format</td>
+                                <td>string</td>
+                                <td>For Copilot Agents, this should be set to "AGENT"</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Settings</td>
+                                <td>object</td>
+                                <td>Contains settings related to conversation history:
+                                    <ul>
+                                        <li><strong>HistoryPassDownMode</strong>: Controls how conversation history is passed to child skills</li>
+                                        <li><strong>IncludeSessionHistory</strong>: Determines whether session history should be included</li>
+                                    </ul>
+                                </td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Skills</td>
+                                <td>array</td>
+                                <td>The array of skill objects that define the agent's capabilities</td>
+                                <td>Yes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </details>
+                
+                <details>
+                    <summary><h3>Skills</h3></summary>
+                    <p>Skills define the specific capabilities of your agent:</p>
+                    <table class="schema-table">
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Required</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>string</td>
+                                <td>Internal name of the skill</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>DisplayName</td>
+                                <td>string</td>
+                                <td>Human-readable name shown to users</td>
+                                <td>Recommended</td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td>string</td>
+                                <td>Detailed explanation of what the skill does</td>
+                                <td>Recommended</td>
+                            </tr>
+                            <tr>
+                                <td>Interfaces</td>
+                                <td>array</td>
+                                <td>The type of interface the skill uses (usually "Agent")</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Inputs</td>
+                                <td>array</td>
+                                <td>Defines the input parameters for the skill</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Settings</td>
+                                <td>object</td>
+                                <td>Contains the Instructions field that guides the behavior of the skill</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>ChildSkills</td>
+                                <td>array</td>
+                                <td>Functions that this skill can call to retrieve or manipulate data</td>
+                                <td>No</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </details>
+                
+                <details>
+                    <summary><h3>Best Practices</h3></summary>
+                    <ul>
+                        <li><strong>Use clear, descriptive names for skills and fields</strong> - Names should clearly indicate what the skill or field does</li>
+                        <li><strong>Write detailed descriptions</strong> - This helps the model understand when to use each skill</li>
+                        <li><strong>Provide specific instructions</strong> - Give clear guidance on how the skill should behave in different scenarios</li>
+                        <li><strong>Include relevant child skills</strong> - Child skills should provide all the functionality your agent needs</li>
+                        <li><strong>Be verbose in skill descriptions</strong> - Descriptions should be written for someone knowledgeable but not necessarily an expert in your domain</li>
+                        <li><strong>Describe what and why</strong> - Explain not just what the skill does, but why someone would use it</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <h4>Example of a Good Description</h4>
+                        <p>"Gets reputation information for an IP address. Enables users to determine if an IP address is risky."</p>
+                    </div>
+                </details>
+                
+                <p class="documentation-footer">
+                    For more information, refer to the <a href="https://learn.microsoft.com/en-us/copilot/security/custom-plugins" target="_blank">Microsoft Copilot Custom Plugins Documentation</a>.
+                </p>
+            </div>
+        </div>
+    </div>    <!-- Skill Template (Hidden) -->
     <template id="skill-template">
         <div class="skill-item">
             <div class="skill-header">
@@ -83,22 +280,46 @@
             </div>
             
             <div class="form-group">
-                <label for="skill-name">Name:</label>
+                <label for="skill-name">
+                    Name:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Internal name of the skill. Should be descriptive and unique within the agent.</span>
+                    </div>
+                </label>
                 <input type="text" class="skill-name" placeholder="e.g., ServiceNowAgent">
             </div>
             
             <div class="form-group">
-                <label for="skill-display-name">Display Name:</label>
+                <label for="skill-display-name">
+                    Display Name:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Human-readable name of the skill shown to users.</span>
+                    </div>
+                </label>
                 <input type="text" class="skill-display-name" placeholder="e.g., ServiceNowAgent">
             </div>
             
             <div class="form-group">
-                <label for="skill-description">Description:</label>
+                <label for="skill-description">
+                    Description:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Description of what the skill does. Be specific and descriptive. Helps the model select the right skill.</span>
+                    </div>
+                </label>
                 <textarea class="skill-description" placeholder="Enter a description"></textarea>
             </div>
             
             <div class="form-group">
-                <label>Interfaces:</label>
+                <label>
+                    Interfaces:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">The type of interface the skill uses. For agent skills, this is typically set to "Agent".</span>
+                    </div>
+                </label>
                 <div class="interfaces-container">
                     <div class="interface-item">
                         <input type="text" value="Agent" readonly>
@@ -107,22 +328,45 @@
             </div>
             
             <div class="form-group">
-                <label>Inputs:</label>
+                <label>
+                    Inputs:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Defines the input parameters for the skill. For agent skills, this typically contains a single "Input" parameter.</span>
+                    </div>
+                </label>
                 <div class="inputs-container">
                     <div class="input-item">
                         <div class="form-group">
-                            <label>Required:</label>
+                            <label>
+                                Required:
+                                <div class="tooltip-container">
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltip">Specifies whether this input is mandatory for the skill to function.</span>
+                                </div>
+                            </label>
                             <select class="input-required">
                                 <option value="true">true</option>
                                 <option value="false">false</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Name:</label>
+                        </div>                        <div class="form-group">
+                            <label>
+                                Name:
+                                <div class="tooltip-container">
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltip">Name of the input parameter. For agent skills, this is typically "Input".</span>
+                                </div>
+                            </label>
                             <input type="text" class="input-name" value="Input" readonly>
                         </div>
                         <div class="form-group">
-                            <label>Description:</label>
+                            <label>
+                                Description:
+                                <div class="tooltip-container">
+                                    <span class="info-icon">i</span>
+                                    <span class="tooltip">Description of what the input should contain. Helps guide users on what information to provide.</span>
+                                </div>
+                            </label>
                             <textarea class="input-description" placeholder="Description for this input"></textarea>
                         </div>
                     </div>
@@ -130,18 +374,44 @@
             </div>
             
             <div class="form-group">
-                <label>Settings:</label>
+                <label>
+                    Settings:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">Configuration settings for this skill.</span>
+                    </div>
+                </label>
                 <div class="nested-form">
                     <div class="form-group">
-                        <label>Instructions:</label>
+                        <label>
+                            Instructions:
+                            <div class="tooltip-container">
+                                <span class="info-icon">i</span>
+                                <span class="tooltip">Detailed instructions that guide how the skill should behave. These instructions shape the skill's responses and capabilities.</span>
+                            </div>
+                        </label>
                         <textarea class="skill-instructions" placeholder="Enter instructions for this skill"></textarea>
                     </div>
                 </div>
             </div>
             
             <div class="form-group">
-                <label>Child Skills:</label>
+                <label>
+                    Child Skills:
+                    <div class="tooltip-container">
+                        <span class="info-icon">i</span>
+                        <span class="tooltip">List of specific functions that this skill can call to retrieve or manipulate data.</span>
+                    </div>
+                </label>
                 <div class="childskills-container">
+                    <div class="helper-text">
+                        Child skills are specific functions that this skill can invoke. Example child skills:
+                        <ul>
+                            <li><strong>ServiceNow</strong>: GetServiceNowIncident, SearchServiceNowIncidents</li>
+                            <li><strong>Lifecycle</strong>: ActivateLifecycleWorkflow</li>
+                            <li><strong>Intune</strong>: GetIntuneDevices, GetEntraUserDetailsV1</li>
+                        </ul>
+                    </div>
                     <div class="childskill-list"></div>
                     <div class="childskill-actions">
                         <input type="text" class="new-childskill" placeholder="Add a child skill">
