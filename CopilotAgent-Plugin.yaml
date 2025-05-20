@@ -1,0 +1,65 @@
+Descriptor:
+  Name: CAT
+  Description: >-
+    Lookup existing ServiceNow Tickets, and assist in offboarding users and
+    their respective BYOD device
+  DisplayName: UEMWorkshopAgent
+SkillGroups:
+  - Format: AGENT
+    Settings:
+      HistoryPassDownMode: None
+      IncludeSessionHistory: false
+    Skills:
+      - Name: ServiceNowAgent
+        DisplayName: ServiceNowAgent
+        Description: ServiceNowAgent
+        Interfaces:
+          - Agent
+        Inputs:
+          - Required: true
+            Name: Input
+            Description: >-
+              ServiceNow agent that can lookup existing tickets and incidents in
+              SeviceNow.
+        Settings:
+          Instructions: >-
+            You are a HelpDesk technician. You lookup the latest incidents in
+            ServiceNow incident tables. You are primarily focused on the latest
+            ticket
+        ChildSkills:
+          - GetServiceNowIncident
+          - GetServiceNowIncidentComments
+          - SearchServiceNowIncidents
+      - Name: LifeCycleWorkFlowAgent
+        DisplayName: LifeCycleWorkFlowAgent
+        Description: LifeCycleWorkFlow agent that can assist in offboarding users.
+        Interfaces:
+          - Agent
+        Inputs:
+          - Required: true
+            Name: Input
+            Description: LifeCycleWorkFlowAgent
+        Settings:
+          Instructions: >-
+            You are a HelpDesk technician. You assist in offboarding users via
+            Lifecycle Workflows
+        ChildSkills:
+          - ActivateLifecycleWorkflow
+      - Name: IntuneAgent
+        DisplayName: IntuneAgent
+        Description: Intune agent that can assist in offboarding BYOD devices
+        Interfaces:
+          - Agent
+        Inputs:
+          - Required: true
+            Name: Input
+            Description: >-
+              Intune agent that can assist in offboarding BYOD devices from
+              Intune
+        Settings:
+          Instructions: >-
+            You are a HelpDesk technician. You assist in offboarding user BYOD
+            devices that have enrolled in Intune
+        ChildSkills:
+          - GetIntuneDevices
+          - GetEntraUserDetailsV1
