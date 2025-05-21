@@ -23,18 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const tooltipData = {
         'descriptor-name': 'Internal name of the Plugin. Cannot contain: / \\ ? # @. Maximum length: 100 characters.',
         'descriptor-display-name': 'Human-readable name of the agent. Should be concise and descriptive. Maximum length: 40 characters.',
-        'descriptor-description': 'Detailed description of what the agent does. This helps users understand the agent\'s purpose. Maximum length: 16,000 characters.',
-        'skillgroup-format': 'Defines how the skills are structured. For Copilot Agents, this should be set to AGENT.',
+        'descriptor-description': 'Pure metadata for the whole plugin package. This helps users understand the agent\'s purpose. Maximum length: 16,000 characters.',
+        'skillgroup-format': 'Defines execution type (e.g., AGENT, API, GPT, KQL). For Copilot Agents, this should be set to AGENT.',
         'history-passdown': 'Controls how conversation history is passed to child skills. Options: None, All, or LastExchange.',
         'include-history': 'Determines whether session history should be included in skill invocations.',
         'skill-name': 'Internal name of the skill. Should be descriptive and unique within the agent.',
         'skill-display-name': 'Human-readable name of the skill shown to users.',
-        'skill-description': 'Description of what the skill does. Be specific and descriptive. Helps the model select the right skill.',
-        'skill-instructions': 'Detailed instructions that guide how the skill should behave. These instructions shape the skill\'s responses and capabilities.',
+        'skill-description': 'A single callable unit (Agent or Tool). Description of what the skill does. Be specific and descriptive. Helps the model select the right skill.',
+        'skill-instructions': 'System prompt or role message. Detailed instructions that guide how the skill should behave. These instructions shape the skill\'s responses and capabilities.',
         'input-required': 'Specifies whether this input is mandatory for the skill to function.',
-        'input-name': 'Name of the input parameter. For agent skills, this is typically "Input".',
-        'input-description': 'Description of what the input should contain. Helps guide users on what information to provide.',
-        'childskill-list': 'List of specific functions that this skill can call to retrieve or manipulate data.'
+        'input-name': 'Name of the input parameter. For agent skills, this is typically \'Input\'.',
+        'input-description': 'Arguments for invoking the skill. Description of what the input should contain. Helps guide users on what information to provide.',
+        'childskill-list': 'List of other skills the agent can call. These are specific functions that this skill can call to retrieve or manipulate data.',
+        'skill-interfaces': 'Declares capability of the skill (e.g., Agent, Action). For agent skills, this is typically \'Agent\'.'
     };
     
     // Add event listeners
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize tooltips for static elements
-    initializeTooltips();
+    // initializeTooltips(); // Removed this line
 
     // Initialize tooltips
     function initializeTooltips() {
@@ -99,31 +100,58 @@ document.addEventListener('DOMContentLoaded', function() {
             labelElement.appendChild(tooltipContainer);
         }
     }
+
+    // Helper function to append tooltip directly to a label element
+    function appendTooltipToLabel(labelElement, tooltipText) {
+        if (labelElement && labelElement.tagName === 'LABEL') {
+            // Prevent adding duplicate tooltips if already present
+            if (labelElement.querySelector('.tooltip-container')) {
+                return;
+            }
+
+            const tooltipContainer = document.createElement('span');
+            tooltipContainer.className = 'tooltip-container';
+            
+            const infoIcon = document.createElement('span');
+            infoIcon.className = 'info-icon';
+            infoIcon.textContent = 'i';
+            
+            const tooltipSpan = document.createElement('span');
+            tooltipSpan.className = 'tooltip';
+            tooltipSpan.textContent = tooltipText;
+            
+            tooltipContainer.appendChild(infoIcon);
+            tooltipContainer.appendChild(tooltipSpan);
+            
+            labelElement.appendChild(tooltipContainer);
+        }
+    }
     
     // Add tooltips to newly created skill elements
     function addSkillTooltips(skillElement) {
-        // Add tooltips to basic skill fields
-        const nameInput = skillElement.querySelector('.skill-name');
-        const displayNameInput = skillElement.querySelector('.skill-display-name');
-        const descriptionInput = skillElement.querySelector('.skill-description');
-        const instructionsInput = skillElement.querySelector('.skill-instructions');
-        const inputRequired = skillElement.querySelector('.input-required');
-        const inputName = skillElement.querySelector('.input-name');
-        const inputDescription = skillElement.querySelector('.input-description');
-        const childSkillList = skillElement.querySelector('.childskill-list');
+        // Add tooltips to basic skill fields using the standard input-based function
+        addTooltipToElement(skillElement.querySelector('.skill-name'), tooltipData['skill-name']);
+        addTooltipToElement(skillElement.querySelector('.skill-display-name'), tooltipData['skill-display-name']);
+        addTooltipToElement(skillElement.querySelector('.skill-description'), tooltipData['skill-description']);
+        addTooltipToElement(skillElement.querySelector('.skill-instructions'), tooltipData['skill-instructions']);
         
-        addTooltipToElement(nameInput, tooltipData['skill-name']);
-        addTooltipToElement(displayNameInput, tooltipData['skill-display-name']);
-        addTooltipToElement(descriptionInput, tooltipData['skill-description']);
-        addTooltipToElement(instructionsInput, tooltipData['skill-instructions']);
-        addTooltipToElement(inputRequired, tooltipData['input-required']);
-        addTooltipToElement(inputName, tooltipData['input-name']);
-        addTooltipToElement(inputDescription, tooltipData['input-description']);
+        // Tooltips for inputs section
+        addTooltipToElement(skillElement.querySelector('.input-required'), tooltipData['input-required']);
+        addTooltipToElement(skillElement.querySelector('.input-name'), tooltipData['input-name']);
+        addTooltipToElement(skillElement.querySelector('.input-description'), tooltipData['input-description']);
         
-        // For child skills list, add tooltip to the label instead
-        const childSkillsLabel = skillElement.querySelector('.childskills-container').previousElementSibling;
-        if (childSkillsLabel) {
-            addTooltipToElement(childSkillList, tooltipData['childskill-list']);
+        // For "Interfaces" label - find the label and append tooltip directly
+        const interfacesContainer = skillElement.querySelector('.interfaces-container');
+        if (interfacesContainer) {
+            const interfacesLabel = interfacesContainer.previousElementSibling;
+            appendTooltipToLabel(interfacesLabel, tooltipData['skill-interfaces']);
+        }
+        
+        // For "Child Skills" label - find the label and append tooltip directly
+        const childSkillsContainer = skillElement.querySelector('.childskills-container');
+        if (childSkillsContainer) {
+            const childSkillsLabel = childSkillsContainer.previousElementSibling;
+            appendTooltipToLabel(childSkillsLabel, tooltipData['childskill-list']);
         }
     }
     

@@ -303,10 +303,6 @@
             <div class="form-group">
                 <label for="skill-name">
                     Name:
-                    <div class="tooltip-container">
-                        <span class="info-icon">i</span>
-                        <span class="tooltip">Internal name of the skill. Should be descriptive and unique within the agent.</span>
-                    </div>
                 </label>
                 <input type="text" class="skill-name" placeholder="e.g., ServiceNowAgent">
             </div>
@@ -314,10 +310,6 @@
             <div class="form-group">
                 <label for="skill-display-name">
                     Display Name:
-                    <div class="tooltip-container">
-                        <span class="info-icon">i</span>
-                        <span class="tooltip">Human-readable name of the skill shown to users.</span>
-                    </div>
                 </label>
                 <input type="text" class="skill-display-name" placeholder="e.g., ServiceNowAgent">
             </div>
@@ -325,10 +317,6 @@
             <div class="form-group">
                 <label for="skill-description">
                     Description:
-                    <div class="tooltip-container">
-                        <span class="info-icon">i</span>
-                        <span class="tooltip">Description of what the skill does. Be specific and descriptive. Helps the model select the right skill.</span>
-                    </div>
                 </label>
                 <textarea class="skill-description" placeholder="Enter a description"></textarea>
             </div>
@@ -361,10 +349,6 @@
                         <div class="form-group">
                             <label>
                                 Required:
-                                <div class="tooltip-container">
-                                    <span class="info-icon">i</span>
-                                    <span class="tooltip">Specifies whether this input is mandatory for the skill to function.</span>
-                                </div>
                             </label>
                             <select class="input-required">
                                 <option value="true">true</option>
@@ -373,20 +357,12 @@
                         </div>                        <div class="form-group">
                             <label>
                                 Name:
-                                <div class="tooltip-container">
-                                    <span class="info-icon">i</span>
-                                    <span class="tooltip">Name of the input parameter. For agent skills, this is typically "Input".</span>
-                                </div>
                             </label>
                             <input type="text" class="input-name" value="Input" readonly>
                         </div>
                         <div class="form-group">
                             <label>
                                 Description:
-                                <div class="tooltip-container">
-                                    <span class="info-icon">i</span>
-                                    <span class="tooltip">Description of what the input should contain. Helps guide users on what information to provide.</span>
-                                </div>
                             </label>
                             <textarea class="input-description" placeholder="Description for this input"></textarea>
                         </div>
@@ -406,10 +382,6 @@
                     <div class="form-group">
                         <label>
                             Instructions:
-                            <div class="tooltip-container">
-                                <span class="info-icon">i</span>
-                                <span class="tooltip">Detailed instructions that guide how the skill should behave. These instructions shape the skill's responses and capabilities.</span>
-                            </div>
                         </label>
                         <textarea class="skill-instructions" placeholder="Enter instructions for this skill"></textarea>
                     </div>
@@ -419,10 +391,6 @@
             <div class="form-group">
                 <label>
                     Child Skills:
-                    <div class="tooltip-container">
-                        <span class="info-icon">i</span>
-                        <span class="tooltip">List of specific functions that this skill can call to retrieve or manipulate data.</span>
-                    </div>
                 </label>
                 <div class="childskills-container">
                     <div class="helper-text">
